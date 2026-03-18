@@ -3,20 +3,20 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { createServer } from "./server";
 
-export default defineConfig(() => ({
-  root: "client", // 🔥 MOST IMPORTANT (index.html yahi hai)
+export default defineConfig({
+  // ❌ REMOVE this line
+  // root: "client",
 
   server: {
     host: "::",
     port: 8080,
     fs: {
-      allow: ["./client", "./shared"],
-      deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
+      allow: ["."],
     },
   },
 
   build: {
-    outDir: "../dist/spa", // 🔥 root change hone ki wajah se
+    outDir: "dist/spa", // 🔥 अब root से build होगा
   },
 
   plugins: [react(), expressPlugin()],
@@ -27,7 +27,7 @@ export default defineConfig(() => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-}));
+});
 
 function expressPlugin(): Plugin {
   return {
