@@ -5,26 +5,28 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 export default function Branches() {
   const branches = [
     {
-      id: 2,
-      name: 'ignis ventures media',
-      address: 'kotputli behror',
-      phone: '+91 9783952367',
-      email: 'ignisventuresmedia@gmai.com',
-      services: 'Marketing, Design, Development',
-      hours: '10:00 AM - 6:00 PM',
-      team: '15+ professionals',
-      coordinates: { lat: 26.9124, lng: 75.7873 }
-    },
-    {
       id: 1,
       name: 'ignis venture media',
-      address: 'Mahendragarh - haryana',
+      address: 'Paota Kotputli Behror',
       phone: '+91 7733952367',
       email: 'ignisventuresmedia@gmai.com',
       services: 'Full Services',
       hours: '9:00 AM - 6:00 PM',
+      Day:'Monday-Saturday',
       team: '25+ professionals',
       coordinates: { lat: 28.0, lng: 75.5 }
+    },
+    {
+      id: 2,
+      name: 'ignis ventures media',
+      address: 'Mehendra Haryana',
+      phone: '+91 9783952367',
+      email: 'ignisventuresmedia@gmai.com',
+      services: 'Marketing, Design, Development',
+      hours: '9:00 AM - 6:00 PM',
+      Day: 'Monday-Saturday',
+      team: '15+ professionals',
+      coordinates: { lat: 26.9124, lng: 75.7873 }
     },
     // {
     //   id: 3,
@@ -48,6 +50,7 @@ export default function Branches() {
     'Branding & Logo Design',
     'Video Production & Editing',
     'Social Media Management',
+    'Graphic Design',
     '24/7 Customer Support'
   ];
 
