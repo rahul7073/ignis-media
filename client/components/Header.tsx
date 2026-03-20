@@ -66,7 +66,7 @@ export const Header = () => {
             className="h-10 w-auto"
           />
           <div className="flex flex-col">
-            <h1 className="font-bold text-lg text-black">Ignis Ventures</h1>
+            <h1 className="font-bold text-lg text-black">IGNIS VENTURES MEDIA</h1>
             <p className="text-xs text-gray-600 hidden sm:block">Digital Marketing & Political Strategy</p>
           </div>
         </div>
