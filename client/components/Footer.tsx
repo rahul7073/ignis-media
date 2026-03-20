@@ -25,9 +25,7 @@ export const Footer = () => {
                 <Facebook size={16} />
               </a>
              
-              <a href="#" className="p-2 bg-red-600/20 hover:bg-red-600 rounded-lg transition-colors">
-                <Linkedin size={16} />
-              </a>
+            
               <a href="https://www.instagram.com/ignis_ventures_?igsh=eW1mbXM0bWY1Zzd1&utm_source=qr" className="p-2 bg-red-600/20 hover:bg-red-600 rounded-lg transition-colors">
                 <Instagram size={16} />
               </a>
