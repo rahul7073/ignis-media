@@ -13,8 +13,8 @@ export const Footer = () => {
           <div className="col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <img
-                src="https://cdn.builder.io/api/v1/image/assets%2F1cc8f68dafc342bcab518cbe4f3c04ef%2F95f8baca14ef4282b778fed309344861?format=webp&width=800&height=1200"
-                alt="Ignis Ventures Media"
+                src="https://res.cloudinary.com/drrj8rl9n/image/upload/v1774023651/WhatsApp_Image_2026-03-20_at_9.35.47_PM_sxvzll.jpg"
+                alt="IGNIS VENTURES MEDIA"
                 className="h-10 w-auto"
               />
               <h3 className="font-bold text-lg">Ignis Ventures</h3>
