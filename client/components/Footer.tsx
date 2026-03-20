@@ -17,16 +17,14 @@ export const Footer = () => {
                 alt="IGNIS VENTURES MEDIA"
                 className="h-10 w-auto"
               />
-              <h3 className="font-bold text-lg">Ignis Ventures</h3>
+              <h3 className="font-bold text-lg">IGNIS VENTURES MEDIA</h3>
             </div>
             <p className="text-gray-400 text-sm mb-4">Igniting Digital Growth & Political Impact</p>
             <div className="flex gap-3">
               <a href="https://www.facebook.com/share/18FKwypUL6/?mibextid=wwXIfr" className="p-2 bg-red-600/20 hover:bg-red-600 rounded-lg transition-colors">
                 <Facebook size={16} />
               </a>
-              <a href="#" className="p-2 bg-red-600/20 hover:bg-red-600 rounded-lg transition-colors">
-                <Twitter size={16} />
-              </a>
+             
               <a href="#" className="p-2 bg-red-600/20 hover:bg-red-600 rounded-lg transition-colors">
                 <Linkedin size={16} />
               </a>
