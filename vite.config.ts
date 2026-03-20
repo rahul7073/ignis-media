@@ -3,20 +3,16 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { createServer } from "./server";
 
-export default defineConfig({
-  // ❌ REMOVE this line
-  // root: "client",
+export default defineConfig(() => ({
+  // ❌ root हटाओ
 
   server: {
     host: "::",
     port: 8080,
-    fs: {
-      allow: ["."],
-    },
   },
 
   build: {
-    outDir: "dist/spa", // 🔥 अब root से build होगा
+    outDir: "dist/spa", // normal रखो
   },
 
   plugins: [react(), expressPlugin()],
@@ -27,7 +23,7 @@ export default defineConfig({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-});
+}));
 
 function expressPlugin(): Plugin {
   return {
