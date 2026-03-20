@@ -5,17 +5,6 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 export default function Branches() {
   const branches = [
     {
-      id: 1,
-      name: 'ignis venture media',
-      address: 'Mahendragarh - haryana',
-      phone: '+91 7733952367',
-      email: 'ignisventuresmedia@gmai.com',
-      services: 'Full Services',
-      hours: '9:00 AM - 6:00 PM',
-      team: '25+ professionals',
-      coordinates: { lat: 28.0, lng: 75.5 }
-    },
-    {
       id: 2,
       name: 'ignis ventures media',
       address: 'kotputli behror',
@@ -25,6 +14,17 @@ export default function Branches() {
       hours: '10:00 AM - 6:00 PM',
       team: '15+ professionals',
       coordinates: { lat: 26.9124, lng: 75.7873 }
+    },
+    {
+      id: 1,
+      name: 'ignis venture media',
+      address: 'Mahendragarh - haryana',
+      phone: '+91 7733952367',
+      email: 'ignisventuresmedia@gmai.com',
+      services: 'Full Services',
+      hours: '9:00 AM - 6:00 PM',
+      team: '25+ professionals',
+      coordinates: { lat: 28.0, lng: 75.5 }
     },
     // {
     //   id: 3,
