@@ -1460,7 +1460,10 @@ useEffect(() => {
                   <div className="w-12 h-12 bg-red-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Phone className="text-red-600" size={24} />
                   </div>
-{/* hhghhhv */}
+                    <div>
+                    <h4 className="font-bold text-black text-lg mb-1">Phone Number</h4>
+                    <p className="text-gray-600">+91 9783952367 ,+91 7733952367</p>
+                  </div>
                 </div>
               </div>
 
