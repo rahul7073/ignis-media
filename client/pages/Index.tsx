@@ -2,11 +2,6 @@ import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
-declare global {
-  interface Window {
-    botpressWebChat: any;
-  }
-}
 import {
   ChevronRight,
   X,
@@ -58,29 +53,7 @@ export default function Index() {
     const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
   }, []);
-  // ===== BOTPRESS AI CHAT =====
-useEffect(() => {
-  const script1 = document.createElement("script");
-  script1.src = "https://cdn.botpress.cloud/webchat/v3.6/inject.js";
-  script1.async = true;
-
-  const script2 = document.createElement("script");
-  script2.src = "https://files.bpcontent.cloud/2026/03/05/02/20260305021955-3EOQU6YH.js";
-  script2.defer = true;
-
-  script2.onload = () => {
-    // 🔥 CHAT AUTO OPEN
-    window.botpressWebChat.onEvent(
-      () => {
-        window.botpressWebChat.open();
-      },
-      ["LIFECYCLE.LOADED"]
-    );
-  };
-
-  document.body.appendChild(script1);
-  document.body.appendChild(script2);
-}, []);
+  
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<number | null>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
 
@@ -988,16 +961,16 @@ useEffect(() => {
             <p className="text-xl text-gray-600">Comprehensive solutions for your digital and marketing needs</p>
           </div>
 
-          {/* Political Campaign Services */}
-          <div>
+          {/* Digital Marketing Services */}
+          <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                <Target className="text-white" size={24} />
+                <BarChart3 className="text-white" size={24} />
               </div>
-              <h3 className="text-3xl font-bold text-black">🗳 Political Campaign Management</h3>
+              <h3 className="text-3xl font-bold text-black">📈 Digital Marketing Services</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {politicalServices.map((service, idx) => {
+              {digitalServices.map((service, idx) => {
                 const Icon = service.icon;
                 return (
                   <div
@@ -1081,16 +1054,16 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* digital marketing Services */}
-         <div className="mb-16">
+          {/* Political Campaign Services */}
+          <div>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                <BarChart3 className="text-white" size={24} />
+                <Target className="text-white" size={24} />
               </div>
-              <h3 className="text-3xl font-bold text-black">📈 Digital Marketing Services</h3>
+              <h3 className="text-3xl font-bold text-black">🗳 Political Campaign Management</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {digitalServices.map((service, idx) => {
+              {politicalServices.map((service, idx) => {
                 const Icon = service.icon;
                 return (
                   <div
@@ -1113,6 +1086,7 @@ useEffect(() => {
           </div>
         </div>
       </section>
+
 
       {/* ===== SCHOOL MEDIA SOLUTIONS SECTION ===== */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-red-800 text-white">
@@ -1603,11 +1577,14 @@ useEffect(() => {
               {/* CTA Button */}
               <button
                 onClick={() => {
+                  const message = `Hello sir, I'm interested in ${selectedService.title}. Please provide more details.`;
+                  const whatsappUrl = `https://wa.me/917733952367?text=${encodeURIComponent(message)}`;
+                  window.open(whatsappUrl, '_blank');
                   setSelectedService(null);
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-lg font-bold text-lg transition-all hover:shadow-lg"
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-lg font-bold text-lg transition-all hover:shadow-lg hover:shadow-red-600/30 flex items-center justify-center gap-2 group"
               >
+                <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
                 Get Started with {selectedService.title}
               </button>
             </div>

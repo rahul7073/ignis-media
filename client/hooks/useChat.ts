@@ -2,41 +2,78 @@ import { useState, useCallback, useEffect } from 'react';
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: number;
+  buttons?: { label: string; value: string }[];
 }
 
-export const useChat = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const services = [
+  { id: 'digital', label: 'Digital Marketing Services', icon: '📱' },
+  { id: 'creative', label: 'Creative & Media Services', icon: '🎨' },
+  { id: 'development', label: 'Development Services', icon: '💻' },
+  { id: 'political', label: 'Political Campaign Management', icon: '🗳️' },
+  { id: 'school', label: 'School Media Solutions', icon: '🎓' },
+];
 
-  // Load chat history from localStorage
-  useEffect(() => {
+const getInitialMessages = (): ChatMessage[] => {
+  try {
+    const savedMessages = localStorage.getItem('ignis_chat_history');
+    if (savedMessages) {
+      return JSON.parse(savedMessages);
+    }
+  } catch (err) {
+    console.error('Failed to load chat history:', err);
+  }
+
+  // Show welcome message on first load
+  const welcomeMessage: ChatMessage = {
+    id: 'welcome',
+    role: 'system',
+    content: `🔥 Welcome to Ignis Ventures Media!\n\n🇬🇧 English:\nHello! Welcome to Ignis Ventures Media. We offer premium digital marketing, creative services, web development, political campaigns, and school media solutions. Which service are you interested in?\n\n🇮🇳 हिंदी:\nनमस्ते! Ignis Ventures Media में आपका स्वागत है। हम डिजिटल मार्केटिंग, क्रिएटिव सेवाएं, वेब डेवलपमेंट, राजनीतिक अभियान और स्कूल मीडिया समाधान प्रदान करते हैं। कौन सी सेवा में आप रुचि रखते हैं?`,
+    timestamp: Date.now(),
+    buttons: services.map(s => ({ label: `${s.icon} ${s.label}`, value: s.id })),
+  };
+  return [welcomeMessage];
+};
+
+export const useChat = () => {
+  const [messages, setMessages] = useState<ChatMessage[]>(() => getInitialMessages());
+  const [loading, setLoading] = useState(false);
+  const [selectedService, setSelectedService] = useState<string | null>(() => {
     try {
       const savedMessages = localStorage.getItem('ignis_chat_history');
       if (savedMessages) {
-        setMessages(JSON.parse(savedMessages));
+        const parsed = JSON.parse(savedMessages) as ChatMessage[];
+        const lastUserMessage = [...parsed].reverse().find((m: ChatMessage) => m.role === 'user');
+        if (lastUserMessage) {
+          const selectedSvc = services.find(s => lastUserMessage.content.includes(s.label));
+          if (selectedSvc) {
+            return selectedSvc.id;
+          }
+        }
       }
     } catch (err) {
-      console.error('Failed to load chat history:', err);
+      console.error('Failed to load selected service:', err);
     }
-  }, []);
+    return null;
+  });
 
-  // Save chat history to localStorage
-  const saveMessages = useCallback((newMessages: ChatMessage[]) => {
+  // Sync messages to localStorage whenever they change
+  useEffect(() => {
     try {
-      localStorage.setItem('ignis_chat_history', JSON.stringify(newMessages));
-      setMessages(newMessages);
+      localStorage.setItem('ignis_chat_history', JSON.stringify(messages));
     } catch (err) {
-      console.error('Failed to save chat history:', err);
+      console.error('Failed to save messages:', err);
     }
-  }, []);
+  }, [messages]);
 
   const sendMessage = useCallback(async (userMessage: string) => {
     if (!userMessage.trim()) return;
 
+    setLoading(true);
+
+    // User message
     const newUserMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -44,70 +81,53 @@ export const useChat = () => {
       timestamp: Date.now(),
     };
 
-    setLoading(true);
-    setError(null);
+    // Check if user selected a service
+    const selectedSvc = services.find(s => userMessage.includes(s.label) || userMessage === s.id);
+    let assistantResponse: ChatMessage;
 
-    try {
-      const updatedMessages = [...messages, newUserMessage];
-      saveMessages(updatedMessages);
-
-      // Call OpenAI API
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: updatedMessages.map(msg => ({
-            role: msg.role,
-            content: msg.content,
-          })),
-          temperature: 0.7,
-          max_tokens: 500,
-          system: `You are a helpful customer support assistant for Ignis Ventures Media, a digital marketing and political campaign management company. 
-          
-          Our services include:
-          - Digital Marketing Services (SEO, Google Ads, Meta Ads, SMS Marketing, Email Marketing, WhatsApp Marketing)
-          - Creative & Media Services (Graphic Design, Branding, Video Production, Reels, Posters, Social Media Campaigns)
-          - Development Services (Web Development, App Development, Landing Pages, Portfolio Websites)
-          - Political Campaign Management (Social Media Strategy, Campaign Strategy, Targeting, Campaign Materials, Awareness, Campaign Management)
-          - School Media Solutions
-          
-          Be professional, helpful, and guide customers toward our services. Always encourage them to contact us via WhatsApp or the contact form for detailed consultations.
-          Contact: +91 7733952367 | Email: ignisventuresmedia@gmail.com`,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Failed to get response from AI');
-      }
-
-      const data = await response.json();
-      const assistantMessage: ChatMessage = {
+    if (selectedSvc) {
+      setSelectedService(selectedSvc.id);
+      assistantResponse = {
         id: `assistant-${Date.now()}`,
         role: 'assistant',
-        content: data.choices[0].message.content,
+        content: `Perfect! You've selected ${selectedSvc.icon} ${selectedSvc.label}.\n\nOur team specializes in:\n• Expert solutions tailored to your needs\n• Professional execution & delivery\n• 24/7 customer support\n\nPlease click the "Contact Us via WhatsApp" button to discuss your requirements directly with our team. They'll welcome you and guide you through the process!\n\n💬 Let's connect on WhatsApp for a personalized consultation.`,
         timestamp: Date.now(),
+        buttons: [{ label: '📱 Contact Us via WhatsApp', value: 'whatsapp' }],
       };
-
-      const finalMessages = [...updatedMessages, assistantMessage];
-      saveMessages(finalMessages);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      setError(errorMessage);
-      console.error('Chat error:', err);
-    } finally {
-      setLoading(false);
+    } else {
+      // General inquiry
+      assistantResponse = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: `Thank you for your interest! 🙏\n\nTo better assist you, please select one of our services:\n\n💡 Our expertise includes:\n• Digital Marketing (SEO, Google Ads, Meta Ads, SMS, Email, WhatsApp)\n• Creative & Media (Design, Branding, Video, Reels, Campaigns)\n• Web & App Development (Custom solutions)\n• Political Campaigns (Strategy & Management)\n• School Media (Educational content)\n\nChoose a service above to learn more!`,
+        timestamp: Date.now(),
+        buttons: services.map(s => ({ label: `${s.icon} ${s.label}`, value: s.id })),
+      };
     }
-  }, [messages, saveMessages]);
+
+    const updatedMessages = [...messages, newUserMessage, assistantResponse];
+    setMessages(updatedMessages);
+    setLoading(false);
+  }, [messages]);
+
+  const handleServiceSelect = useCallback(async (serviceId: string) => {
+    const service = services.find(s => s.id === serviceId);
+    if (service) {
+      await sendMessage(service.label);
+    }
+  }, [sendMessage]);
 
   const clearHistory = useCallback(() => {
     try {
-      localStorage.removeItem('ignis_chat_history');
-      setMessages([]);
+      const welcomeMessage: ChatMessage = {
+        id: 'welcome',
+        role: 'system',
+        content: `🔥 Welcome to Ignis Ventures Media!\n\n🇬🇧 English:\nHello! Welcome to Ignis Ventures Media. We offer premium digital marketing, creative services, web development, political campaigns, and school media solutions. Which service are you interested in?\n\n🇮🇳 हिंदी:\nनमस्ते! Ignis Ventures Media में आपका स्वागत है। हम डिजिटल मार्केटिंग, क्रिएटिव सेवाएं, वेब डेवलपमेंट, राजनीतिक अभियान और स्कूल मीडिया समाधान प्रदान करते हैं। कौन सी सेवा में आप रुचि रखते हैं?`,
+        timestamp: Date.now(),
+        buttons: services.map(s => ({ label: `${s.icon} ${s.label}`, value: s.id })),
+      };
+      setMessages([welcomeMessage]);
+      setSelectedService(null);
     } catch (err) {
       console.error('Failed to clear chat history:', err);
     }
@@ -116,8 +136,9 @@ export const useChat = () => {
   return {
     messages,
     loading,
-    error,
     sendMessage,
+    handleServiceSelect,
     clearHistory,
+    selectedService,
   };
 };

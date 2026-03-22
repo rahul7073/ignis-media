@@ -112,8 +112,8 @@ export default function TermsConditions() {
             <p className="text-gray-700 mb-3">For questions about these Terms & Conditions, contact us at:</p>
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="text-gray-700"><strong>Ignis Ventures Media</strong></p>
-              <p className="text-gray-700">Email: hello@ignisventures.com</p>
-              <p className="text-gray-700">Phone: +91 (XXX) XXX-XXXX</p>
+              <p className="text-gray-700">Email: ignisventuresmedia@gmail.com</p>
+              <p className="text-gray-700">Phone: +91 9783952367</p>
               <p className="text-gray-700">Address: India</p>
             </div>
           </section>

@@ -9,11 +9,13 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { ChatButton } from "./components/ChatButton";
+import { InstagramPopup } from "./components/InstagramPopup";
+
 
 // Lazy load pages for better performance
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
-const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+// const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Careers = lazy(() => import("./pages/Careers"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
@@ -48,6 +50,7 @@ export const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <ChatButton />
+        <InstagramPopup />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route
@@ -70,7 +73,7 @@ export const App = () => (
             path="/cookies-policy"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <CookiesPolicy />
+                {/* <CookiesPolicy /> */}
               </Suspense>
             }
           />

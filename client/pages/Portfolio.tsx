@@ -72,16 +72,16 @@ export default function Portfolio() {
       title: 'RCI Education Hub - Complete Branding',
       category: 'Education Branding',
       description: 'Comprehensive branding and marketing for educational institution from logo to full campaign.',
-      results: '300+ student enrollment',
+      results: 'thousand student enrollment',
       client: 'RCI Education Hub',
       tags: ['Branding', 'Marketing', 'Education']
     }
   ];
 
   const stats = [
-    { number: '150+', label: 'Projects Completed' },
+    { number: '300+', label: 'Projects Completed' },
     { number: '50+', label: 'Happy Clients' },
-    { number: '8+', label: 'Years Experience' },
+    { number: '5+', label: 'Years Experience' },
     { number: '500%', label: 'Avg Client Growth' }
   ];
 

@@ -8,7 +8,7 @@ interface ChatBotProps {
 }
 
 export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
-  const { messages, loading, error, sendMessage, clearHistory } = useChat();
+  const { messages, loading, sendMessage, handleServiceSelect, clearHistory, selectedService } = useChat();
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -27,26 +27,19 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
   };
 
   const handleSendToWhatsApp = () => {
-    if (messages.length === 0) {
-      const defaultMessage = "Hello sir, I need a service. Please help me";
-      const whatsappUrl = `https://wa.me/917733952367?text=${encodeURIComponent(defaultMessage)}`;
-      window.open(whatsappUrl, '_blank');
-      return;
-    }
-
     // Format chat history for WhatsApp
     const chatText = messages
       .map(msg => {
-        const prefix = msg.role === 'user' ? 'You: ' : 'Ignis AI: ';
+        if (msg.role === 'system') return msg.content;
+        const prefix = msg.role === 'user' ? '👤 You: ' : '🤖 Ignis AI: ';
         return prefix + msg.content;
       })
-      .join('\n\n');
+      .join('\n\n---\n\n');
 
-    const messageToSend = `Conversation with Ignis AI:\n\n${chatText}\n\nPlease help me with my service request.`;
+    const messageToSend = `*Ignis Ventures Media - Chat Conversation*\n\n${chatText}\n\n---\n\nHello sir, I'm interested in discussing my service requirements. Please help me!`;
     const whatsappUrl = `https://wa.me/917733952367?text=${encodeURIComponent(messageToSend)}`;
     window.open(whatsappUrl, '_blank');
   };
-
   if (!isOpen) return null;
 
   return (
@@ -75,35 +68,67 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center">
             <MessageCircle size={32} className="text-gray-300 mb-2" />
-            <p className="text-gray-500 text-sm font-medium">Welcome to Ignis AI!</p>
-            <p className="text-gray-400 text-xs mt-1">Ask us about our services</p>
+            <p className="text-gray-500 text-sm font-medium">Loading chat...</p>
           </div>
         ) : (
           <>
             {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-xs px-4 py-2 rounded-lg ${
-                    message.role === 'user'
-                      ? 'bg-red-600 text-white rounded-br-none'
-                      : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
-                  }`}
-                >
-                  <p className="text-sm leading-relaxed break-words">{message.content}</p>
-                  <p
-                    className={`text-xs mt-1 ${
-                      message.role === 'user' ? 'text-red-100' : 'text-gray-400'
+              <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {message.role === 'system' ? (
+                  // Welcome/System message
+                  <div className="max-w-xs bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 px-4 py-3 rounded-lg">
+                    <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap break-words">
+                      {message.content}
+                    </p>
+                    {message.buttons && message.buttons.length > 0 && (
+                      <div className="mt-3 space-y-2">
+                        {message.buttons.map((btn, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleServiceSelect(btn.value)}
+                            className="w-full px-3 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+                          >
+                            {btn.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // Regular message
+                  <div
+                    className={`max-w-xs px-4 py-2 rounded-lg ${
+                      message.role === 'user'
+                        ? 'bg-red-600 text-white rounded-br-none'
+                        : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
                     }`}
                   >
-                    {new Date(message.timestamp).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                </div>
+                    <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">{message.content}</p>
+                    {message.buttons && message.buttons.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {message.buttons.map((btn, idx) => (
+                          btn.value === 'whatsapp' ? (
+                            <button
+                              key={idx}
+                              onClick={handleSendToWhatsApp}
+                              className="w-full px-3 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 text-white rounded transition-colors mt-2"
+                            >
+                              {btn.label}
+                            </button>
+                          ) : (
+                            <button
+                              key={idx}
+                              onClick={() => handleServiceSelect(btn.value)}
+                              className="w-full px-2 py-1.5 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+                            >
+                              {btn.label}
+                            </button>
+                          )
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
             {loading && (
@@ -115,12 +140,6 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
-              </div>
-            )}
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm">
-                <p className="font-medium">Error</p>
-                <p className="text-xs mt-1">{error}</p>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -140,12 +159,14 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
                 <Trash2 size={14} />
                 Clear
               </button>
-              <button
-                onClick={handleSendToWhatsApp}
-                className="flex-1 text-xs text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 flex items-center justify-center gap-1 py-1 rounded transition-colors font-medium"
-              >
-                📱 Send to WhatsApp
-              </button>
+              {selectedService && (
+                <button
+                  onClick={handleSendToWhatsApp}
+                  className="flex-1 text-xs text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 flex items-center justify-center gap-1 py-1 rounded transition-colors font-medium"
+                >
+                  📱 WhatsApp
+                </button>
+              )}
             </>
           )}
         </div>
@@ -154,7 +175,7 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask me anything..."
+            placeholder="Ask something..."
             disabled={loading}
             className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-600 text-sm disabled:bg-gray-100"
           />
@@ -170,3 +191,7 @@ export const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
     </div>
   );
 };
+
+
+
+  

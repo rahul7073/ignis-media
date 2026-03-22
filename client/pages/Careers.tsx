@@ -10,8 +10,8 @@ export default function Careers() {
       department: 'Digital Marketing',
       location: 'Kotputli, Rajasthan',
       type: 'Full-time',
-      salary: '₹4-6 LPA',
-      experience: '3-5 years',
+      salary: '₹ Depend on skills',
+      experience: 'Fresher to Exprience',
       description: 'Lead digital marketing campaigns for top brands. Manage Google Ads, Meta Ads, and content strategies.'
     },
     {
@@ -20,28 +20,28 @@ export default function Careers() {
       department: 'Creative',
       location: 'Kotputli, Rajasthan',
       type: 'Full-time',
-      salary: '₹2.5-4 LPA',
-      experience: '2-3 years',
+      salary: '₹ Depend on skills',
+      experience: 'Fresher to Exprience',
       description: 'Create high-quality video content, reels, and graphics. Handle video editing and post-production.'
     },
-    {
-      id: 3,
-      title: 'Web Developer (React/Node.js)',
-      department: 'Development',
-      location: 'Kotputli, Rajasthan',
-      type: 'Full-time',
-      salary: '₹4-6.5 LPA',
-      experience: '2-4 years',
-      description: 'Develop responsive websites and web applications. Work with modern tech stack.'
-    },
+    // {
+    //   id: 3,
+    //   title: 'Web Developer (React/Node.js)',
+    //   department: 'Development',
+    //   location: 'Kotputli, Rajasthan',
+    //   type: 'Full-time',
+    //   salary: '₹4-6.5 LPA',
+    //   experience: '2-4 years',
+    //   description: 'Develop responsive websites and web applications. Work with modern tech stack.'
+    // },
     {
       id: 4,
       title: 'Political Campaign Manager',
       department: 'Political Strategy',
       location: 'Kotputli, Rajasthan',
       type: 'Full-time',
-      salary: '₹5-8 LPA',
-      experience: '3+ years',
+      salary: '₹ Depend on skills',
+      experience: 'Fresher to Exprience',
       description: 'Plan and execute political campaigns. Handle voter engagement and digital targeting.'
     },
     {
@@ -50,8 +50,8 @@ export default function Careers() {
       department: 'Digital Marketing',
       location: 'Kotputli, Rajasthan',
       type: 'Full-time',
-      salary: '₹2-3.5 LPA',
-      experience: '1-2 years',
+      salary: '₹ Depend on skills',
+      experience: 'Fresher to Exprience',
       description: 'Manage social media accounts for brands and political campaigns. Create engaging content.'
     },
     {
@@ -60,8 +60,8 @@ export default function Careers() {
       department: 'Creative',
       location: 'Kotputli, Rajasthan',
       type: 'Full-time',
-      salary: '₹2-3 LPA',
-      experience: '1-2 years',
+      salary: '₹ Depend on skills',
+      experience: 'Fresher to Exprience',
       description: 'Design graphics, posters, and campaign materials. Create visual content for various platforms.'
     }
   ];
@@ -180,7 +180,7 @@ export default function Careers() {
       <section className="bg-red-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Join Us?</h2>
-          <p className="text-lg mb-6 opacity-90">Send your resume to careers@ignisventures.com or call us at +91 (XXX) XXX-XXXX</p>
+          <p className="text-lg mb-6 opacity-90">Send your resume to ignisventuresmedia@gmail.com or call us at +91 9783952367</p>
           <button className="bg-white text-red-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition-colors">
             Send Your Resume
           </button>
