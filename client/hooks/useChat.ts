@@ -30,7 +30,7 @@ const getInitialMessages = (): ChatMessage[] => {
   const welcomeMessage: ChatMessage = {
     id: 'welcome',
     role: 'system',
-    content: `🔥 Welcome to Ignis Ventures Media!\n\n🇬🇧 English:\nHello! Welcome to Ignis Ventures Media. We offer premium digital marketing, creative services, web development, political campaigns, and school media solutions. Which service are you interested in?\n\n🇮🇳 हिंदी:\nनमस्ते! Ignis Ventures Media में आपका स्वागत है। हम डिजिटल मार्केटिंग, क्रिएटिव सेवाएं, वेब डेवलपमेंट, राजनीतिक अभियान और स्कूल मीडिया समाधान प्रदान करते हैं। कौन सी सेवा में आप रुचि रखते हैं?`,
+    content: ` Welcome to Ignis Ventures Media!\n\n 🇬 English:\nHello! Welcome to Ignis Ventures Media. We offer premium digital marketing, creative services, web development, political campaigns, and school media solutions. Which service are you interested in?\n\n 🇮  हिंदी:\nनमस्ते! Ignis Ventures Media में आपका स्वागत है। हम डिजिटल मार्केटिंग, क्रिएटिव सेवाएं, वेब डेवलपमेंट, राजनीतिक अभियान और स्कूल मीडिया समाधान प्रदान करते हैं। कौन सी सेवा में आप रुचि रखते हैं?`,
     timestamp: Date.now(),
     buttons: services.map(s => ({ label: `${s.icon} ${s.label}`, value: s.id })),
   };
